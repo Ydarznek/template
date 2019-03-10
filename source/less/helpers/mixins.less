@@ -1,0 +1,10 @@
+.fontface(@family, @filename: @family, @weight: normal, @style: normal, @display: auto) {
+  @font-face {
+    font-family: @family;
+    src: url("../fonts/@{filename}.woff") format("woff"),
+      url("../fonts/@{filename}.woff2") format("woff2");
+    font-weight: @weight;
+    font-style: @style;
+    font-display: @display;
+  }
+}

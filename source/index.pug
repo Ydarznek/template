@@ -1,0 +1,10 @@
+doctype html
+html( lang='eng')
+  block head
+    - var pageTitle = 'TEST';
+    include pug/head
+    include pug/bemto/bemto
+
+  +b.BODY.main-page
+    +e.HEADER.header
+      include pug/header
