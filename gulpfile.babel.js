@@ -3,20 +3,21 @@
 import browserSync from 'browser-sync';
 const server = browserSync.create();
 
-const autoprefixer = require("autoprefixer");
+const autoprefixer = require('autoprefixer');
 const babel = require('gulp-babel');
-const csso = require("gulp-csso");
-const del = require("del");
-const gulp = require("gulp");
+const csso = require('gulp-csso');
+const concat = require('gulp-concat');
+const del = require('del');
+const gulp = require('gulp');
 const htmlmin = require('gulp-html-minifier');
-const imagemin = require("gulp-imagemin");
+const imagemin = require('gulp-imagemin');
 const include = require('posthtml-include');
-const less = require("gulp-less");
-const plumber = require("gulp-plumber");
+const less = require('gulp-less');
+const plumber = require('gulp-plumber');
 const pug = require('gulp-pug');
-const postcss = require("gulp-postcss");
+const postcss = require('gulp-postcss');
 const posthtml = require('gulp-posthtml');
-const rename = require("gulp-rename");
+const rename = require('gulp-rename');
 const svgstore = require('gulp-svgstore');
 const uglify = require('gulp-uglify');
 const webp = require('gulp-webp');
@@ -99,12 +100,12 @@ const buildHtml = (done) => {
 }
 
 const scripts = () => {  
-   return gulp.src('source/js/*.js')
-    .pipe(plumber())
-    .pipe(babel())
-    .pipe(uglify())
-    .pipe(rename('script.min.js'))
-    .pipe(gulp.dest('build/js'))
+   return gulp.src('source/js/*.js') 
+   .pipe(concat('script.min.js'))
+   .pipe(babel())
+   .pipe(uglify())
+   .pipe(gulp.dest('build/js'))
+   .pipe(server.stream())
 };
 
 const buildScripts = (done) => {
@@ -133,6 +134,7 @@ const watchFiles = () => {
   gulp.watch('source/less/*.less', buildStyles);
   gulp.watch('source/*.pug', buildHtml);
   gulp.watch('source/pug/*.pug', buildHtml);
+  gulp.watch('source/js/*.js', buildScripts);
 };
 
 const build = gulp.series(clean, copy, gulp.parallel(buildHtml, buildStyles, buildScripts, images));
